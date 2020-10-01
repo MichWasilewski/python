@@ -1,8 +1,24 @@
 from utillies import calculations
-from utillies import except_exception
+import datetime
+import json
 
 def display():
-    choice = None
+    name = " "
+    with open('data.txt') as json_file:
+        data = json.load(json_file)
+    while name == " ":
+        name = input("Podaj imię: ")
+        x = datetime.datetime.now()
+        choice = None
+
+        data["how many"] += 1
+
+        with open('data.txt', 'w+') as outfile:
+            json.dump(data, outfile)
+
+        print(f"Witaj ! {name}", "Synchronizujmy nasze smartwatch'e....jest teraz ", x)
+        print("Twoja ilość logowań to: ", data["how many"])
+
     while choice != 'c':
         choice = input(
             """ 
@@ -10,8 +26,8 @@ def display():
             c - koniec
             + - dodawanie
             - - odejmowanie
-            * mnożenie
-            / dzielenie
+            * - mnożenie
+            / - dzielenie
             """)
 
         if choice == '*':
