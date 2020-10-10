@@ -1,23 +1,27 @@
 from utillies import calculations
-import datetime
+from utillies.except_exception import user_input
+from datetime import datetime
 import json
 
 def display():
     name = " "
-    with open('data.txt') as json_file:
+    with open("data.json") as json_file:
         data = json.load(json_file)
     while name == " ":
         name = input("Podaj imię: ")
-        x = datetime.datetime.now()
+        x = datetime.now()
         choice = None
 
-        data["how many"] += 1
+        if name not in data:
+            data.update({name: 1})
+        else:
+            data[name] += 1#Tu imię
 
-        with open('data.txt', 'w+') as outfile:
+        with open("data.json", "w+") as outfile:
             json.dump(data, outfile)
 
         print(f"Witaj ! {name}", "Synchronizujmy nasze smartwatch'e....jest teraz ", x)
-        print("Twoja ilość logowań to: ", data["how many"])
+        print("Twoja ilość logowań to: ", data[name])
 
     while choice != 'c':
         choice = input(
@@ -31,44 +35,23 @@ def display():
             """)
 
         if choice == '*':
-            try:
-                first = int(input("1 Liczba: "))
-                second = int(input("2 Liczba: "))
-                equel = calculations.multiplication(first, second)
-                print("Wynik: ", equel)
-            except (ValueError, TypeError) as e:
-                print("Wpisz liczbę całkowitą", e)
+            first = user_input(2)
+            equel = calculations.multiplication(*first)
+            print("Wynik: ", equel)
 
         elif choice == '+':
-            try:
-                first = int(input("1 Liczba: "))
-                second = int(input("2 Liczba: "))
-                equel = calculations.addiction(first, second)
-                print("Wynik: ", equel)
-            except (ValueError, TypeError) as e:
-                print("Wpisz liczbę całkowitą", e)
+            first = user_input(2)
+            equel = calculations.addiction(*first)
+            print("Wynik: ", equel)
 
         elif choice == '-':
-            try:
-                first = int(input("1 Liczba: "))
-                second = int(input("2 Liczba: "))
-                equel = calculations.subtraction(first, second)
-                print("Wynik: ", equel)
-            except (ValueError, TypeError) as e:
-                print("Wpisz liczbę całkowitą", e)
+            first = user_input(2)
+            equel = calculations.subtraction(*first)
+            print("Wynik: ", equel)
 
         elif choice == '/':
-
-            try:
-                first = int(input("1 Liczba: "))
-                second = int(input("2 Liczba: "))
-                equel = calculations.division(first, second)
-                print("Wynik: ", equel)
-            except (ValueError, TypeError) as e:
-                print("Wpisz liczbę całkowitą", e)
-            except ZeroDivisionError as z:
-                print("Nie dzielimy przez 0 !", z)
-
-
+            first = user_input(2)
+            equel = calculations.division(*first)
+            print("Wynik: ", equel)
 
     print("\nDowidzenia !")

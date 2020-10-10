@@ -11,4 +11,8 @@ def addiction(a, b):
 
 
 def division(a, b):
-    return a / b
+    try:
+        return a/b
+    except ZeroDivisionError:
+        print("Nie można dzielić przez zero")
+
